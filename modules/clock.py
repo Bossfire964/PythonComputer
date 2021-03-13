@@ -4,12 +4,14 @@ from modules import register
 from modules import alu
 from modules import ram
 from modules import cpu
+from modules import display
 
 register.setUp()
+display.startScreen(10, 10)
 
 
 time_data = 1
-mode = "play"
+mode = "debug"
 
 
 def start():
@@ -19,6 +21,7 @@ def start():
 		ram.clock()
 		register.check()
 		alu.check()
+		display.UpdateScreen()
 
 
 
