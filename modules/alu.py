@@ -16,13 +16,17 @@ def check():
 	global reg2
 	if on == True:
 		if add == True:
-			new_data = bin(int(''.join(register.registers[reg1].data), 2) + int(''.join(register.registers[reg2].data), 2)).split()
+			new_data = int(''.join(register.registers[reg1].data), 2) + int(''.join(register.registers[reg2].data), 2)
+			get_bin = lambda x, n: format(x, 'b').zfill(n)
+			new_data = get_bin(new_data, 64)
 			new_data = spliter(new_data)
 			while len(new_data) > 64:
 				new_data.pop(0)
 			bus.data = new_data
 		elif add == False:
-			new_data = bin(int(''.join(register.registers[reg1].data), 2) - int(''.join(register.registers[reg2].data), 2)).split()
+			new_data = int(''.join(register.registers[reg1].data), 2) - int(''.join(register.registers[reg2].data), 2)
+			get_bin = lambda x, n: format(x, 'b').zfill(n)
+			new_data = get_bin(new_data, 64)
 			new_data = spliter(new_data)
 			while len(new_data) > 64:
 				new_data.pop(0)

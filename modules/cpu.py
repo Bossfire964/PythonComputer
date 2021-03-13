@@ -4,6 +4,7 @@ from modules import alu
 from modules import ram
 from modules import clock
 from modules import display
+import os
 
 
 
@@ -17,7 +18,10 @@ commandLib = {
 	"00000000000000000000000000000111" : "Write 1 [no value]",
 	"00000000000000000000000000001000" : "Write 2 [no value]",
 	"00000000000000000000000000001001" : "Add",
-	"00000000000000000000000000001010" : "Subtract"
+	"00000000000000000000000000001010" : "Subtract",
+	"00000000000000000000000000001011" : "Bus to hard drive bin [bin(location)]",
+	"00000000000000000000000000001100" : "Make bin file [bin(location)]",
+	"00000000000000000000000000001101" : "Change display [1-8=locationrow, 9-16=locationcolumn, 17-32=char]"
 }
 
 def spliter(word):
@@ -60,3 +64,32 @@ def runCommand(command):
 	if struct == "00000000000000000000000000001010":
 		alu.on = True
 		alu.add = False
+	if struct == "00000000000000000000000000001011":
+		thisPath = os.path.realpath(__file__)
+		newPath = thisPath.split('/')
+		newPath.pop(-1)
+		newPath.pop(-1)
+		newPath.append("disk")
+		newPath.append("bin")
+		newPath.append("bloca" + str(int(''.join(command[33:]), 2)))
+		if os.path.exists('/'.join(newPath) + '.bi'):
+			f = open('/'.join(newPath) + '.bi', 'a')
+			f.writelines([''.join(bus.data)])
+			f.close()
+		else:
+			print("Not a file")
+	if struct == "00000000000000000000000000001100":
+		thisPath = os.path.realpath(__file__)
+		newPath = thisPath.split('/')
+		newPath.pop(-1)
+		newPath.pop(-1)
+		newPath.append("disk")
+		newPath.append("bin")
+		newPath.append("bloca" + str(int(''.join(command[33:]), 2)))
+		if os.path.exists('/'.join(newPath) + '.bi'):
+			print("nah")
+		else:
+			f = open('/'.join(newPath) + '.bi', 'x')
+			f.close()
+	if struct == "00000000000000000000000000001101":
+		display.display.image.append("%d:%d:%d" % (int(''.join(command[33:40]), 2), int(''.join(command[41:48]), 2), int(''.join(command[49:]), 2)))
