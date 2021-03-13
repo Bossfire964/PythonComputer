@@ -20,13 +20,13 @@ def setUp():
 
 
 def check():	
-	print("checking")
 	for register in registers:
-		if not register.writing == True and register.loading == True:
-			if register.writing == True:
-				bus.data = register.data
-			if register.writing == True:
-				register.data = bus.data
+		if register.writing == True:
+			bus.data = register.data
+		if register.loading == True:
+			register.data = bus.data
+		register.writing = False
+		register.loading = False
 
 
 

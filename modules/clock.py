@@ -8,16 +8,17 @@ from modules import cpu
 register.setUp()
 
 
-time_data = 1000
-mode = "debug"
+time_data = 1
+mode = "play"
 
 
 def start():
+	global time_data
+	global mode
 	def clock():
 		ram.clock()
 		register.check()
 		alu.check()
-		print(register.registers[0].data)
 
 
 
